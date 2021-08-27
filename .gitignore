@@ -1,2 +1,2 @@
 .idea
-learning_node/node_modules
+/learning_node/node_modules/*
