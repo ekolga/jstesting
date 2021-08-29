@@ -27,26 +27,22 @@ const server  = http.createServer((request, response) => {
         pathToHTML += '.html';
     }
 
-    let encoding = 'utf-8';
-
-    if (fileExtension == '.jpg' || fileExtension == '.ico') {
-        encoding = 'base64';
-    };
-
-    fs.readFile(pathToHTML, encoding, (err, content) => {
+    fs.readFile(pathToHTML, (err, content) => {
         if (err) {
-            response.writeHead(404, { 'Content-Type': 'text/html' })
-            response.end(`There is no such file on the server - ${pathToHTML} .`)
+            response.writeHead(404, { 'Content-Type': 'text/plain' });
+            response.end(`There is no such file on the server - ${pathToHTML} .`);
+
+            return;
         }
 
         response.writeHead(200, {
             'Content-Type': contentType
-        })
+        });
         response.write(content);
-        response.end() // if err = true, then 'Error [ERR_STREAM_WRITE_AFTER_END]: write after end' occures
-    })
+        response.end();
 
-})
+    });
+});
 
 server.listen(port)
 .on('error', err => console.error('An error occurred: ' + err.message));
